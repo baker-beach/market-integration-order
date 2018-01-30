@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/data/mongo
+          http://www.springframework.org/schema/data/mongo/spring-mongo-1.10.2.xsd
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/util
+          http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+	<bean id="mongoURI" class="com.mongodb.MongoClientURI">
+		<constructor-arg index="0" value="${mongo.uri}" />
+	</bean>
+
+	<bean id="mongoClient" class="com.mongodb.MongoClient">
+		<constructor-arg index="0" type="com.mongodb.MongoClientURI"
+			ref="mongoURI" />
+	</bean>
+
+	<bean id="morphia" class="org.mongodb.morphia.Morphia" />
+
+	<bean id="shopDatastore" class="com.bakerbeach.market.morphia.DatastoreFactory2">
+		<property name="morphia" ref="morphia" />
+		<property name="mongoClient" ref="mongoClient" />
+		<property name="dbName" value="${mongo.shop.dbName}" />
+	</bean>
+	
+	<mongo:db-factory id="shopDbFactory" mongo-ref="demo"
+		dbname="${mongo.shop.dbName}" username="${mongo.shop.dbUser}"
+		password="${mongo.shop.dbPwd}" />
+
+	<mongo:db-factory id="cmsDbFactory" mongo-ref="demo"
+		dbname="${mongo.cms.dbName}" username="${mongo.cms.dbUser}" password="${mongo.cms.dbPwd}" />
+
+	<bean id="shopTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="shopDbFactory" />
+	</bean>
+
+	<bean id="cmsTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="cmsDbFactory" />
+	</bean>
+
+	<beans profile="env.dev">
+		<mongo:mongo id="demo" host="${mongo.host}" port="${mongo.port}">
+			<mongo:options connections-per-host="${mongo.default.connectionsPerHost}"
+				threads-allowed-to-block-for-connection-multiplier="${mongo.default.threadsAllowedToBlockForConnectionMultiplier}"
+				connect-timeout="${mongo.default.connectTimeout}" max-wait-time="${mongo.default.maxWaitTime}"
+				auto-connect-retry="${mongo.default.autoConnectRetry}"
+				socket-keep-alive="${mongo.default.socketKeepAlive}" socket-timeout="${mongo.default.socketTimeout}"
+				slave-ok="${mongo.default.slaveOk}" write-number="1" write-timeout="0"
+				write-fsync="true" />
+		</mongo:mongo>
+	</beans>
+	<beans profile="env.stage">
+		<mongo:mongo id="demo" host="${mongo.host}" port="${mongo.port}">
+			<mongo:options connections-per-host="${mongo.default.connectionsPerHost}"
+				threads-allowed-to-block-for-connection-multiplier="${mongo.default.threadsAllowedToBlockForConnectionMultiplier}"
+				connect-timeout="${mongo.default.connectTimeout}" max-wait-time="${mongo.default.maxWaitTime}"
+				auto-connect-retry="${mongo.default.autoConnectRetry}"
+				socket-keep-alive="${mongo.default.socketKeepAlive}" socket-timeout="${mongo.default.socketTimeout}"
+				slave-ok="${mongo.default.slaveOk}" write-number="1" write-timeout="0"
+				write-fsync="true" />
+		</mongo:mongo>
+	</beans>
+	<beans profile="env.live">
+		<mongo:mongo id="demo" replica-set="${mongo.replica-set}">
+			<mongo:options connections-per-host="${mongo.default.connectionsPerHost}"
+				threads-allowed-to-block-for-connection-multiplier="${mongo.default.threadsAllowedToBlockForConnectionMultiplier}"
+				connect-timeout="${mongo.default.connectTimeout}" max-wait-time="${mongo.default.maxWaitTime}"
+				auto-connect-retry="${mongo.default.autoConnectRetry}"
+				socket-keep-alive="${mongo.default.socketKeepAlive}" socket-timeout="${mongo.default.socketTimeout}"
+				slave-ok="${mongo.default.slaveOk}" write-number="1" write-timeout="0"
+				write-fsync="true" />
+		</mongo:mongo>
+	</beans>
+	<beans profile="env.office">
+		<mongo:mongo id="demo" host="${mongo.host}" port="${mongo.port}">
+			<mongo:options connections-per-host="${mongo.default.connectionsPerHost}"
+				threads-allowed-to-block-for-connection-multiplier="${mongo.default.threadsAllowedToBlockForConnectionMultiplier}"
+				connect-timeout="${mongo.default.connectTimeout}" max-wait-time="${mongo.default.maxWaitTime}"
+				auto-connect-retry="${mongo.default.autoConnectRetry}"
+				socket-keep-alive="${mongo.default.socketKeepAlive}" socket-timeout="${mongo.default.socketTimeout}"
+				slave-ok="${mongo.default.slaveOk}" write-number="1" write-timeout="0"
+				write-fsync="true" />
+		</mongo:mongo>
+	</beans>
+
+</beans>

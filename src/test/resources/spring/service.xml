@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<bean id="orderService"
+		class="com.pumpkinorganics.integration.order.service.IntegrationOrderService">
+		<property name="orderDaos">
+			<map key-type="java.lang.String"
+				value-type="com.bakerbeach.market.core.service.order.dao.OrderDao">
+				<entry key="PUMPKIN_DE">
+					<bean
+						class="com.bakerbeach.market.core.service.order.dao.MorphiaOrderDaoImpl">
+						<constructor-arg name="datastore" ref="shopDatastore" />
+						<constructor-arg name="orderCollection"
+							value="${de.context.mongo.order.collection}" />
+					</bean>
+				</entry>
+				<entry key="PUMPKIN_COM">
+					<bean
+						class="com.bakerbeach.market.core.service.order.dao.MorphiaOrderDaoImpl">
+						<constructor-arg name="datastore" ref="shopDatastore" />
+						<constructor-arg name="orderCollection"
+							value="${de.context.mongo.order.collection}" />
+					</bean>
+				</entry>
+				<entry key="PUMPKIN_AMAZON">
+					<bean
+						class="com.bakerbeach.market.core.service.order.dao.MorphiaOrderDaoImpl">
+						<constructor-arg name="datastore" ref="shopDatastore" />
+						<constructor-arg name="orderCollection"
+							value="${de.context.mongo.order.collection}" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>
