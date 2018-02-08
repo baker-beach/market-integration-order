@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.bakerbeach.market.order.api.model.Order;
 import com.bakerbeach.market.order.api.model.OrderList;
 import com.bakerbeach.market.order.api.service.OrderServiceException;
 
@@ -17,10 +18,10 @@ import com.bakerbeach.market.order.api.service.OrderServiceException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:spring/resources.xml", "classpath*:spring/service.xml", "classpath*:spring/db.xml" })
 public class IntegrationOrderServiceTest {
-	
+
 	@Autowired
 	private IntegrationOrderService integrationOrderService;
-	
+
 	@Test
 	public void listOrders() throws OrderServiceException {
 		GregorianCalendar start = new GregorianCalendar();
@@ -30,7 +31,7 @@ public class IntegrationOrderServiceTest {
 		start.set(Calendar.MINUTE, 0);
 		start.set(Calendar.SECOND, 0);
 		start.set(Calendar.MILLISECOND, 0);
-		GregorianCalendar stop = new GregorianCalendar(); 
+		GregorianCalendar stop = new GregorianCalendar();
 		stop.set(Calendar.YEAR, start.get(Calendar.YEAR));
 		stop.set(Calendar.MONTH, start.get(Calendar.MONTH));
 		stop.set(Calendar.DAY_OF_MONTH, start.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -39,7 +40,14 @@ public class IntegrationOrderServiceTest {
 		stop.set(Calendar.SECOND, 59);
 		stop.set(Calendar.MILLISECOND, 999);
 		OrderList orderList = integrationOrderService.findByOrderPeriod(start.getTime(), stop.getTime());
-		System.out.println(orderList.getCount());		
+		StringBuilder sb = new StringBuilder();
+		for (Order order : orderList.getOrders()) {
+			sb.append(order.getTotal(true).getGross()).append(";");
+			sb.append("H").append(";");
+			sb.append("1000000").append(";");
+			sb.append(order.getInvoices().get(0).getId()).append(";");
+			sb.append(order.getCreatedAt()).append("");
+		}
 	}
 
 }
