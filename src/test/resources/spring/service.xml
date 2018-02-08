@@ -39,5 +39,10 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="paymentTransactionDao" class="com.bakerbeach.market.payment.service.TransactionDao">
+		<property name="collectionName" value="payment_transactions" />
+		<property name="mongoTemplate" ref="shopTemplate" />
+	</bean>
 
 </beans>

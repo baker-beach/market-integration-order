@@ -25,4 +25,21 @@ public class IntegrationOrderService extends OrderServiceImpl {
 			return null;
 		}
 	}
+	
+	public OrderList findByInvoicePeriod(Date startDate, Date endDate,String paymentCode) {
+		Map<String, Object> filters = new HashMap<String, Object>();
+		filters.put("invoices.invoiceDate >=", startDate);
+		filters.put("invoices.invoiceDate <=", endDate);
+		String[] status = {"sent","logistic"};
+		filters.put("status in",status);
+		filters.put("total.gross !=","0.00");
+		filters.put("paymentCode =",paymentCode);
+		OrderList orderList;
+		try {
+			orderList = orderDaos.get("PUMPKIN_DE").findByFilters(filters, null, null, null);
+			return orderList;
+		} catch (OrderDaoException e) {
+			return null;
+		}
+	}
 }
