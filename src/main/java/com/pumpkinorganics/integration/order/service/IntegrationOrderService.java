@@ -14,6 +14,9 @@ public class IntegrationOrderService extends OrderServiceImpl {
 		Map<String, Object> filters = new HashMap<String, Object>();
 		filters.put("createdAt >=", startDate);
 		filters.put("createdAt <=", endDate);
+		String[] status = {"sent","logistic"};
+		filters.put("status in",status);
+		filters.put("total.gross !=","0.00");
 		OrderList orderList;
 		try {
 			orderList = orderDaos.get("PUMPKIN_DE").findByFilters(filters, null, null, null);

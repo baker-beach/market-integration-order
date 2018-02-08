@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.bakerbeach.market.order.api.model.OrderList;
 import com.bakerbeach.market.order.api.service.OrderServiceException;
 
 @ActiveProfiles(profiles = { "env.office" })
@@ -23,7 +24,7 @@ public class IntegrationOrderServiceTest {
 	@Test
 	public void listOrders() throws OrderServiceException {
 		GregorianCalendar start = new GregorianCalendar();
-		//start.add(Calendar.MONTH, -1);
+		start.add(Calendar.MONTH, -1);
 		start.set(Calendar.DAY_OF_MONTH, 1);
 		start.set(Calendar.HOUR_OF_DAY, 0);
 		start.set(Calendar.MINUTE, 0);
@@ -37,7 +38,8 @@ public class IntegrationOrderServiceTest {
 		stop.set(Calendar.MINUTE, 59);
 		stop.set(Calendar.SECOND, 59);
 		stop.set(Calendar.MILLISECOND, 999);
-		integrationOrderService.findByOrderPeriod(start.getTime(), stop.getTime());
+		OrderList orderList = integrationOrderService.findByOrderPeriod(start.getTime(), stop.getTime());
+		System.out.println(orderList.getCount());		
 	}
 
 }
