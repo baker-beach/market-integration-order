@@ -19,7 +19,7 @@ public class IntegrationOrderService extends OrderServiceImpl {
 		filters.put("total.gross !=","0.00");
 		OrderList orderList;
 		try {
-			orderList = orderDaos.get("PUMPKIN_DE").findByFilters(filters, null, null, null);
+			orderList = orderDaos.get("PUMPKIN_DE").findByFilters(filters, null, null, null, false);
 			return orderList;
 		} catch (OrderDaoException e) {
 			return null;
@@ -36,7 +36,7 @@ public class IntegrationOrderService extends OrderServiceImpl {
 		filters.put("paymentCode =",paymentCode);
 		OrderList orderList;
 		try {
-			orderList = orderDaos.get("PUMPKIN_DE").findByFilters(filters, null, null, null);
+			orderList = orderDaos.get("PUMPKIN_DE").findByFilters(filters, null, null, null, false);
 			return orderList;
 		} catch (OrderDaoException e) {
 			return null;
