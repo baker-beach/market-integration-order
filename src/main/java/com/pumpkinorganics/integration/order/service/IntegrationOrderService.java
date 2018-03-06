@@ -9,7 +9,7 @@ import com.bakerbeach.market.core.service.order.service.OrderServiceImpl;
 import com.bakerbeach.market.order.api.model.OrderList;
 
 public class IntegrationOrderService extends OrderServiceImpl {
-
+	
 	public OrderList findByOrderPeriod(String shopCode, Date startDate, Date endDate) {
 		Map<String, Object> filters = new HashMap<String, Object>();
 		filters.put("createdAt >=", startDate);
