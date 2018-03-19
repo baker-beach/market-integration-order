@@ -1,11 +1,14 @@
 package com.pumpkinorganics.integration.order.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.bakerbeach.market.core.service.order.dao.OrderDaoException;
 import com.bakerbeach.market.core.service.order.service.OrderServiceImpl;
+import com.bakerbeach.market.order.api.model.Order;
 import com.bakerbeach.market.order.api.model.OrderList;
 
 public class IntegrationOrderService extends OrderServiceImpl {
@@ -14,6 +17,11 @@ public class IntegrationOrderService extends OrderServiceImpl {
 		Map<String, Object> filters = new HashMap<String, Object>();
 		filters.put("createdAt >=", startDate);
 		filters.put("createdAt <=", endDate);
+		List<String> list = new ArrayList<String>();
+		list.add(Order.STATUS_SENT);
+		list.add(Order.STATUS_LOGISTIC);
+		filters.put("status in", list);
+		filters.put("total.gross !=", "0.00");
 		OrderList orderList;
 		try {
 			orderList = orderDaos.get(shopCode).findByFilters(filters, null, null, null, false);

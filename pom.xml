@@ -54,7 +54,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.bakerbeach.market</groupId>
-			<artifactId>market-translation</artifactId>
+			<artifactId>market-translation-api</artifactId>
 			<version>[3.1.0,3.2.0)</version>
 		</dependency>
 		<dependency>
@@ -74,8 +74,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.bakerbeach.market</groupId>
-			<artifactId>market-payment</artifactId>
-			<version>3.2.0</version>
+			<artifactId>market-payment-api</artifactId>
+			<version>[3.1.0,3.2.0)</version>
 		</dependency>
 	</dependencies>
 </project>
