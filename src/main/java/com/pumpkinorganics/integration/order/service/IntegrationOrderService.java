@@ -21,7 +21,6 @@ public class IntegrationOrderService extends OrderServiceImpl {
 		list.add(Order.STATUS_SENT);
 		list.add(Order.STATUS_LOGISTIC);
 		filters.put("status in", list);
-		filters.put("total.gross !=", "0.00");
 		OrderList orderList;
 		try {
 			orderList = orderDaos.get(shopCode).findByFilters(filters, null, null, null, false);
